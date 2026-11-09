@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
 # リポジトリ内のスクリプトを直接使う。コピーは作らない。
 $scriptPath = Join-Path $PSScriptRoot 'autohotkey\window.ahk'
