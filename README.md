@@ -12,13 +12,15 @@ cd dotfiles-win
 .\install.ps1
 ```
 
-`install.ps1` は AutoHotkey v2 を `winget` で導入し、`autohotkey/window.ahk` を起動する。また、現在のユーザーのスタートアップにショートカットを作り、次回ログイン時から自動起動する。設定変更後は `install.ps1` を再実行するか、常駐中のスクリプトを再読み込みする。
+`install.ps1` は、標準のインストール先に AutoHotkey v2 がなければ `winget` で現在のユーザーに導入し、`autohotkey/window.ahk` を起動する。現在のユーザーのスタートアップにショートカットを登録して、次回ログイン時からも起動する。
+
+**再実行可能**。AutoHotkey が既に標準の場所にあればインストールを省略し、ショートカットを上書きし、実行中の同じスクリプトを置き換える。標準以外の場所に導入した AutoHotkey は検出対象外。
 
 リポジトリは移動せず、同じ場所で使う（自動起動のショートカットがファイルを直接参照するため）。
 
 ## ウィンドウ配置
 
-ZMK の Windows 用 `layer_15` から、次のキーを送信する想定。**ZMK 側への割り当ては別途必要**。
+ZMK の Windows 用 `layer_15` と連携する。
 
 | 物理操作 | ZMK が送信 | 動作 |
 | --- | --- | --- |
@@ -33,6 +35,18 @@ ZMK の Windows 用 `layer_15` から、次のキーを送信する想定。**ZM
 
 RDP 全画面中にこれらのキーが手元PCと接続先のどちらに届くかは、RDP側の設定・実機で別途確認する。
 
-## 自動起動を解除
+## アンインストール
 
-`Win + R` → `shell:startup` で `dotfiles-win-window.lnk` を削除する。すぐ停止したい場合は通知領域の AutoHotkey アイコンから終了する。
+```powershell
+.\uninstall.ps1
+```
+
+現在の `window.ahk` を停止し、自動起動のショートカットを削除する。**AutoHotkey 本体とリポジトリは削除しない**。他の AutoHotkey スクリプトも停止しない。何度実行してもよい。
+
+現在のユーザーに導入した AutoHotkey 本体も不要なら、明示的に指定する。
+
+```powershell
+.\uninstall.ps1 -RemoveAutoHotkey
+```
+
+本体を削除すると、他の用途で使っている AutoHotkey スクリプトも動かなくなるため注意する。削除対象は標準のユーザー用インストール先の AutoHotkey に限る。リポジトリ自体は必要に応じて手動で削除する。
