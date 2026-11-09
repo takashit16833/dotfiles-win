@@ -49,3 +49,6 @@ Start-Process -FilePath $ahkExe -ArgumentList ('"{0}"' -f $scriptPath)
 Write-Host "AutoHotkey: $ahkExe"
 Write-Host "Key bindings: $scriptPath"
 Write-Host "Startup shortcut: $shortcutPath"
+
+# PowerToys を未導入の場合だけ追加する。
+& (Join-Path $PSScriptRoot 'powertoys.ps1') -Action Install
