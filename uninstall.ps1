@@ -1,5 +1,6 @@
 ﻿param(
-    [switch]$RemoveAutoHotkey
+    [switch]$RemoveAutoHotkey,
+    [switch]$RemovePowerToys
 )
 
 $ErrorActionPreference = 'Stop'
@@ -51,3 +52,7 @@ if ($RemoveAutoHotkey) {
 }
 
 Write-Host 'dotfiles-win window settings have been removed.'
+
+if ($RemovePowerToys) {
+    & (Join-Path $PSScriptRoot 'powertoys.ps1') -Action Uninstall
+}
