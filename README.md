@@ -16,16 +16,7 @@ cd dotfiles-win
 
 ## ウィンドウ配置（ZMK）
 
-配置は Windows 標準の `Win + 矢印` を使用する。ZMK の Windows 用 `layer_15` も同じキーを直接送るため、RDP 内で AutoHotkey を必要としない。
-
-| 物理操作 | 送信キー | 動作 |
-| --- | --- | --- |
-| Hyper + I | Win + ← | 左 1/2 |
-| Hyper + - | Win + → | 右 1/2 |
-| Hyper + A | Win + ↑ | 最大化 |
-| Hyper + O | Win + ↓ | 復元／最小化 |
-
-最大化・復元は従来のトグルではなく別々の操作。1/3・2/3 配置は廃止。
+ウィンドウ配置は Windows 標準の `Win + 矢印` を直接使う。ZMK の `Hyper + I / - / A / O` への割り当ては廃止した。1/3・2/3 配置や最大化トグルにも依存しない。
 Windows 用 `layer_14` の閉じるキーも `Ctrl + W` を直接送る。
 
 仮想デスクトップの切り替え `Hyper + C / V` は ZMK 側で引き続き利用できる。
