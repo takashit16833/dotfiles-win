@@ -9,17 +9,6 @@ F21::MoveToThirds(2, 1)   ; 右 1/3
 +F21::MoveToThirds(1, 2)  ; 右 2/3
 F22::ToggleMaximize()    ; 最大化／元に戻す
 
-; Windows 用 layer_14: 短押しはタブ、長押し（0.4秒以上）はウィンドウを閉じる。
-F23::
-{
-    if KeyWait("F23", "T0.4") {
-        Send "^w"
-    } else {
-        KeyWait "F23"
-        Send "!{F4}"
-    }
-}
-
 MoveToThirds(startThird, spanThirds) {
     hwnd := WinExist("A")
     if !hwnd
