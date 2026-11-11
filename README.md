@@ -4,7 +4,7 @@ Windows 11 用の個人設定。
 
 ## セットアップ
 
-会社PCでは、AutoHotkey・PowerToys・`winget` の利用が許可されていることを確認する。
+会社PCでは、PowerToys・`winget` の利用が許可されていることを確認する。
 
 ```powershell
 git clone https://github.com/takashit16833/dotfiles-win.git
@@ -12,62 +12,45 @@ cd dotfiles-win
 .\install.ps1
 ```
 
-`install.ps1` は、AutoHotkey v2 と PowerToys が未導入なら `winget` で現在のユーザーにインストールする。また、`autohotkey/window.ahk` を起動し、ログイン時の自動起動を登録する。
+`install.ps1` は旧版の AutoHotkey ウィンドウ配置を停止して自動起動を解除し、PowerToys が未導入なら `winget` でインストールする。**AutoHotkey 本体は削除しない**。既存の導入状態で再実行できる。
 
-**再実行可能**。導入済みの PowerToys はスキップし、AutoHotkey も標準の場所にあれば再インストールしない。自動起動のショートカットは上書きし、実行中の同じ AutoHotkey スクリプトは置き換える。
+## ウィンドウ配置（ZMK）
 
-リポジトリは移動せず、同じ場所で使う（自動起動のショートカットがファイルを直接参照するため）。
+配置は Windows 標準の `Win + 矢印` を使用する。ZMK の Windows 用 `layer_15` も同じキーを直接送るため、RDP 内で AutoHotkey を必要としない。
+
+| 物理操作 | 送信キー | 動作 |
+| --- | --- | --- |
+| Hyper + I | Win + ← | 左 1/2 |
+| Hyper + - | Win + → | 右 1/2 |
+| Hyper + A | Win + ↑ | 最大化 |
+| Hyper + O | Win + ↓ | 復元／最小化 |
+
+最大化・復元は従来のトグルではなく別々の操作。1/3・2/3 配置は廃止。
+Windows 用 `layer_14` の閉じるキーも `Ctrl + W` を直接送る。
+
+仮想デスクトップの切り替え `Hyper + C / V` は ZMK 側で引き続き利用できる。
 
 ## PowerToys
-
-PowerToys だけを操作する場合は次を実行する。
 
 ```powershell
 .\powertoys.ps1 -Action Install
 .\powertoys.ps1 -Action Uninstall
 ```
 
-インストール済みなら導入を省略し、未インストールなら削除を省略する。新規インストールはユーザー単位。削除は明示したときだけ実行する。全ユーザー向けに導入されている場合は削除に管理者権限が必要になることがある。
+PowerToys の設定（Command Palette や Bookmarks）は管理していない。
 
-PowerToys の設定（Command Palette や Bookmarks）は現時点では管理していない。
+## 旧 AutoHotkey 設定の解除・アンインストール
 
-## ウィンドウ配置
-
-ZMK の Windows 用 `layer_15` と連携する。
-
-| 物理操作 | ZMK が送信 | 動作 |
-| --- | --- | --- |
-| Hyper + I | F19 | 左 1/3 |
-| Hyper + O | F20 | 中央 1/3 |
-| Hyper + - | F21 | 右 1/3 |
-| Hyper + Shift + I | Shift + F19 | 左 2/3 |
-| Hyper + Shift + - | Shift + F21 | 右 2/3 |
-| Hyper + A | F22 | 最大化／元に戻す |
-
-Windows 用 `layer_14` の「閉じる」キーは ZMK から直接 `Ctrl + W` を送る。RDP 内でも利用できるよう、AutoHotkey に依存しない。長押し時の `Alt + F4` 切り替えは廃止した。
-
-アクティブなウィンドウを、配置先のモニターのタスクバーを除いた領域に配置する。複数モニターではウィンドウが最も大きく重なるモニターを使用する。
-
-RDP 全画面中にこれらのキーが手元PCと接続先のどちらに届くかは、RDP側の設定・実機で別途確認する。
-
-## アンインストール
+旧版で起動した `window.ahk` と自動起動ショートカットだけを解除する場合:
 
 ```powershell
 .\uninstall.ps1
 ```
 
-現在の `window.ahk` を停止し、自動起動のショートカットを削除する。**AutoHotkey 本体とリポジトリは削除しない**。他の AutoHotkey スクリプトも停止しない。何度実行してもよい。
-
-AutoHotkey 本体も不要なら、明示的に指定する。PowerToys は通常の `uninstall.ps1` では削除しない。
+AutoHotkey 本体も削除したい場合のみ、明示的に指定する（ほかの用途で使っている場合は指定しない）。
 
 ```powershell
 .\uninstall.ps1 -RemoveAutoHotkey
 ```
 
-PowerToys も同時に削除する場合:
-
-```powershell
-.\uninstall.ps1 -RemovePowerToys
-```
-
-両方のソフトを削除する場合は `-RemoveAutoHotkey -RemovePowerToys` を指定する。いずれもソフト本体の削除は明示的な指定が必要。他の用途で使っている場合は削除しないこと。リポジトリ自体は手動で削除する。
+PowerToys を削除したい場合は `-RemovePowerToys` を指定する。2つの引数は併用できる。
