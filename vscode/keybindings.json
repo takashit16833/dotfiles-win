@@ -11,6 +11,45 @@
         "when": "editorTextFocus || markdownEditorFocus || (activeCustomEditorId == 'vscode.markdown.editor' && !inputFocus) || (terminalEditorFocus && lazygitFocus)"
     },
 
+    // Markdown Editor のプレビューと編集の切り替え（Mac: Cmd+E）
+    {
+        "key": "ctrl+e",
+        "command": "markdown.editor.toggleLocked",
+        "when": "activeCustomEditorId == 'vscode.markdown.editor' && !inputFocus"
+    },
+
+    // 編集領域を1行ずつスクロール
+    {
+        "key": "alt+pageup",
+        "command": "scrollLineUp",
+        "when": "textInputFocus"
+    },
+    {
+        "key": "alt+pagedown",
+        "command": "scrollLineDown",
+        "when": "textInputFocus"
+    },
+
+    // 編集領域を半ページずつスクロール
+    {
+        "key": "pageup",
+        "command": "editorScroll",
+        "when": "textInputFocus",
+        "args": {
+            "to": "up",
+            "by": "halfPage"
+        }
+    },
+    {
+        "key": "pagedown",
+        "command": "editorScroll",
+        "when": "textInputFocus",
+        "args": {
+            "to": "down",
+            "by": "halfPage"
+        }
+    },
+
     // Explorer: 左矢印でフォルダを閉じる操作は VS Code 標準のまま使う。
     // Explorer 内だけ Ctrl+N で現在のフォルダにファイルを作成
     {
