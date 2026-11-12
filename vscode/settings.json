@@ -1,0 +1,32 @@
+{
+    // テキスト補完（Mac と共通の挙動）
+    "editor.wordBasedSuggestions": "allDocuments",
+    "editor.quickSuggestions": {
+        "other": "on",
+        "comments": "off",
+        "strings": "off"
+    },
+    "editor.suggest.showWords": true,
+    "editor.suggest.localityBonus": true,
+    "editor.acceptSuggestionOnEnter": "off",
+
+    // ターミナル: 実行中のコマンドを上部に固定しない
+    "terminal.integrated.stickyScroll.enabled": false,
+
+    // JSON / JSONC は保存時に標準フォーマッタで整形する
+    "[json]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[jsonc]": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+
+    // Markdown を VS Code 内蔵の Markdown Editor で開く
+    "workbench.editorAssociations": {
+        "*.md": "vscode.markdown.editor"
+    },
+    // Markdown 内のリンクはカード化しない
+    "markdown.experimental.richLinks.enabled": false
+}
