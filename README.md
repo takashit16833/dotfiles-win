@@ -30,24 +30,40 @@ Windows 用 `layer_14` の閉じるキーも `Ctrl + W` を直接送る。
 
 PowerToys の設定（Command Palette や Bookmarks）は管理していない。
 
-## VS Code のキー操作
+## VS Code
 
-`vscode/keybindings.json` に、Mac で使っている Explorer とタブ移動の操作を Windows 用に移植した。
+Mac と同じ操作感になるよう、Windows 用の設定を分けて管理する。
 
-**適用（リポジトリを直接参照）**
+- `vscode/keybindings.json`：Explorer、エディタのタブ、パネルのキー操作
+- `vscode/settings.json`：補完、JSON 保存時の整形、Markdown Editor の既定設定など。Mac 固有のフォント・パス・見た目の設定は含めない
 
-Windows 標準版 VS Code のユーザーキー設定 `%APPDATA%\Code\User\keybindings.json` から `dotfiles-win/vscode/keybindings.json` への**シンボリックリンク**を作る。コピーや手作業での再同期は不要。
+### 適用（リポジトリを直接参照）
 
-最初に VS Code で `Ctrl+Shift+P` → **Preferences: Open Keyboard Shortcuts (JSON)** を開き、**既存のキー設定があれば確認する**。今まで使っていた独自設定は必要に応じて `dotfiles-win/vscode/keybindings.json` に統合してから、PowerShell に次を貼り付けて実行する。
+Windows 標準版 VS Code は `%APPDATA%\Code\User` の `keybindings.json` と `settings.json` を読む。リポジトリにある2ファイルを**シンボリックリンク**で参照すれば、コピーや手動同期は不要。
+
+まず `git pull --ff-only` で `dotfiles-win` を更新する。続いて VS Code の `Ctrl+Shift+P` から **Preferences: Open User Settings (JSON)** と **Preferences: Open Keyboard Shortcuts (JSON)** を開き、既存の独自設定が必要なら**リポジトリ側のファイルに統合**する。パスワードや端末固有の値は Git に登録しない。
+
+PowerShell に以下を**直接貼り付けて**実行する（`.ps1` の実行や実行ポリシーの変更は不要）。
 
 ```powershell
-$source = Join-Path $HOME 'workspace\dotfiles-win\vscode\keybindings.json'
-$target = Join-Path $env:APPDATA 'Code\User\keybindings.json'
-if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw "設定元がありません: $source" }
-$current = Get-Item -LiteralPath $target -Force -ErrorAction SilentlyContinue
-if ($current -and $current.LinkType -eq 'SymbolicLink' -and $current.Target -eq $source) {
-    Write-Host 'すでにリンク済みです'
-} else {
+$sourceDir = Join-Path $HOME 'workspace\dotfiles-win\vscode'
+$userDir = Join-Path $env:APPDATA 'Code\User'
+foreach ($name in @('keybindings.json', 'settings.json')) {
+    $source = Join-Path $sourceDir $name
+    $target = Join-Path $userDir $name
+    if (-not (Test-Path -LiteralPath $source -PathType Leaf)) {
+        throw "設定元がありません: $source"
+    }
+
+    $current = Get-Item -LiteralPath $target -Force -ErrorAction SilentlyContinue
+    if ($current -and $current.LinkType -eq 'SymbolicLink') {
+        if (@($current.Target)[0] -eq $source) {
+            Write-Host "リンク済み: $name"
+            continue
+        }
+        throw "別のリンクが存在します。確認してください: $target"
+    }
+
     $backup = $null
     if ($current) {
         $backup = "$target.bak-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
@@ -61,13 +77,15 @@ if ($current -and $current.LinkType -eq 'SymbolicLink' -and $current.Target -eq 
         }
         throw
     }
+    Write-Host "設定済み: $name"
 }
-Get-Item -LiteralPath $target -Force | Select-Object FullName, LinkType, Target
 ```
 
-既存ファイルは日時付き `.bak-...` に退避し、リンク作成に失敗した場合は元に戻す。VS Code の操作から保存した変更も、リポジトリ側のファイルに反映される。**初回適用後、VS Code でキー操作を確認すること。**
+既存ファイルは `.bak-日時` に退避し、リンク作成に失敗した場合は元へ戻す。**既存の VS Code 設定は自動統合しない**ため、リンク作成前に必要な設定を確認すること。すでに正しくリンク済みのファイルは触らない。VS Code 上での設定変更はリポジトリ側のファイルに反映される。
 
-Windows ではリンク作成に管理者権限か開発者モードが必要な場合がある。会社 PC で許可されていない場合は、権限や組織の設定を変更せず中断する。PowerShell の実行ポリシーは変更不要。ハードリンクは Git 更新で参照が切れる場合があるため、代用しない。
+リンク作成には Windows の開発者モードまたは管理者権限が必要な場合がある。会社 PC の権限設定を許可なく変更しない。ハードリンクでは Git 更新時に参照が切れる場合があるため代用しない。
+
+### キー操作
 
 | 対象 | キー | 動作 |
 | --- | --- | --- |
@@ -79,7 +97,7 @@ Windows ではリンク作成に管理者権限か開発者モードが必要な
 | エディタ | `Ctrl+PageUp/Down` | 前／次のタブ |
 | パネル | `Ctrl+PageUp/Down` | 前／次のパネル（問題・出力・ターミナルなど） |
 
-Explorer / エディタ / パネルの**フォーカスに応じて**操作が切り替わる。その他の VS Code 設定（補完、Markdown Editor、スクロールなど）は今回の設定には含めない。
+Explorer / エディタ / パネルのフォーカスに応じて操作が切り替わる。
 
 ## 旧 AutoHotkey 設定の解除・アンインストール
 
