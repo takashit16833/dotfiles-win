@@ -34,13 +34,40 @@ PowerToys の設定（Command Palette や Bookmarks）は管理していない�
 
 `vscode/keybindings.json` に、Mac で使っている Explorer とタブ移動の操作を Windows 用に移植した。
 
-**適用（PowerShell スクリプト不要）**
+**適用（リポジトリを直接参照）**
 
-1. VS Code で `Ctrl+Shift+P` → **Preferences: Open Keyboard Shortcuts (JSON)** を開く。
-2. `dotfiles-win/vscode/keybindings.json` の内容を確認する。
-3. VS Code 側の `keybindings.json` にキー設定を追加する。すでに設定がある場合は**既存の配列を上書きせず、各項目を統合する**。
+Windows 標準版 VS Code のユーザーキー設定 `%APPDATA%\Code\User\keybindings.json` から `dotfiles-win/vscode/keybindings.json` への**シンボリックリンク**を作る。コピーや手作業での再同期は不要。
 
-標準プロファイルの保存先は `%APPDATA%\Code\User\keybindings.json`。設定の変更先は VS Code のユーザー設定のみで、`install.ps1` や PowerShell の実行ポリシーは変更しない。
+最初に VS Code で `Ctrl+Shift+P` → **Preferences: Open Keyboard Shortcuts (JSON)** を開き、**既存のキー設定があれば確認する**。今まで使っていた独自設定は必要に応じて `dotfiles-win/vscode/keybindings.json` に統合してから、PowerShell に次を貼り付けて実行する。
+
+```powershell
+$source = Join-Path $HOME 'workspace\dotfiles-win\vscode\keybindings.json'
+$target = Join-Path $env:APPDATA 'Code\User\keybindings.json'
+if (-not (Test-Path -LiteralPath $source -PathType Leaf)) { throw "設定元がありません: $source" }
+$current = Get-Item -LiteralPath $target -Force -ErrorAction SilentlyContinue
+if ($current -and $current.LinkType -eq 'SymbolicLink' -and $current.Target -eq $source) {
+    Write-Host 'すでにリンク済みです'
+} else {
+    $backup = $null
+    if ($current) {
+        $backup = "$target.bak-$(Get-Date -Format 'yyyyMMdd-HHmmss')"
+        Move-Item -LiteralPath $target -Destination $backup -ErrorAction Stop
+    }
+    try {
+        New-Item -ItemType SymbolicLink -Path $target -Target $source -ErrorAction Stop | Out-Null
+    } catch {
+        if ($backup -and -not (Test-Path -LiteralPath $target)) {
+            Move-Item -LiteralPath $backup -Destination $target -ErrorAction Stop
+        }
+        throw
+    }
+}
+Get-Item -LiteralPath $target -Force | Select-Object FullName, LinkType, Target
+```
+
+既存ファイルは日時付き `.bak-...` に退避し、リンク作成に失敗した場合は元に戻す。VS Code の操作から保存した変更も、リポジトリ側のファイルに反映される。**初回適用後、VS Code でキー操作を確認すること。**
+
+Windows ではリンク作成に管理者権限か開発者モードが必要な場合がある。会社 PC で許可されていない場合は、権限や組織の設定を変更せず中断する。PowerShell の実行ポリシーは変更不要。ハードリンクは Git 更新で参照が切れる場合があるため、代用しない。
 
 | 対象 | キー | 動作 |
 | --- | --- | --- |
