@@ -30,6 +30,30 @@ Windows 用 `layer_14` の閉じるキーも `Ctrl + W` を直接送る。
 
 PowerToys の設定（Command Palette や Bookmarks）は管理していない。
 
+## VS Code のキー操作
+
+`vscode/keybindings.json` に、Mac で使っている Explorer とタブ移動の操作を Windows 用に移植した。
+
+**適用（PowerShell スクリプト不要）**
+
+1. VS Code で `Ctrl+Shift+P` → **Preferences: Open Keyboard Shortcuts (JSON)** を開く。
+2. `dotfiles-win/vscode/keybindings.json` の内容を確認する。
+3. VS Code 側の `keybindings.json` にキー設定を追加する。すでに設定がある場合は**既存の配列を上書きせず、各項目を統合する**。
+
+標準プロファイルの保存先は `%APPDATA%\Code\User\keybindings.json`。設定の変更先は VS Code のユーザー設定のみで、`install.ps1` や PowerShell の実行ポリシーは変更しない。
+
+| 対象 | キー | 動作 |
+| --- | --- | --- |
+| Explorer | `←` | フォルダを閉じる（標準動作） |
+| Explorer | `→` | フォルダを展開／ファイルを開き、パネルとサイドバーを閉じる |
+| Explorer | `Ctrl+N` | 選択位置に新しいファイルを作成 |
+| Explorer | `Ctrl+←` | 全フォルダを折りたたむ |
+| Explorer | `Ctrl+↑/↓` | 先頭／末尾へ移動 |
+| エディタ | `Ctrl+PageUp/Down` | 前／次のタブ |
+| パネル | `Ctrl+PageUp/Down` | 前／次のパネル（問題・出力・ターミナルなど） |
+
+Explorer / エディタ / パネルの**フォーカスに応じて**操作が切り替わる。その他の VS Code 設定（補完、Markdown Editor、スクロールなど）は今回の設定には含めない。
+
 ## 旧 AutoHotkey 設定の解除・アンインストール
 
 旧版で起動した `window.ahk` と自動起動ショートカットだけを解除する場合:
