@@ -1,0 +1,69 @@
+[
+    // エディタのタブ移動（Markdown Editor / Lazygit 内でも Mac 側と同じ操作）
+    {
+        "key": "ctrl+pagedown",
+        "command": "workbench.action.nextEditorInGroup",
+        "when": "editorTextFocus || markdownEditorFocus || (activeCustomEditorId == 'vscode.markdown.editor' && !inputFocus) || (terminalEditorFocus && lazygitFocus)"
+    },
+    {
+        "key": "ctrl+pageup",
+        "command": "workbench.action.previousEditorInGroup",
+        "when": "editorTextFocus || markdownEditorFocus || (activeCustomEditorId == 'vscode.markdown.editor' && !inputFocus) || (terminalEditorFocus && lazygitFocus)"
+    },
+
+    // Explorer: 左矢印でフォルダを閉じる操作は VS Code 標準のまま使う。
+    // Explorer 内だけ Ctrl+N で現在のフォルダにファイルを作成
+    {
+        "key": "ctrl+n",
+        "command": "explorer.newFile",
+        "when": "filesExplorerFocus && !inputFocus"
+    },
+    // フォルダをすべて折りたたむ
+    {
+        "key": "ctrl+left",
+        "command": "workbench.files.action.collapseExplorerFolders",
+        "when": "filesExplorerFocus && !inputFocus"
+    },
+    // 右矢印: フォルダなら展開、ファイルなら開いて編集領域に移る
+    {
+        "key": "right",
+        "command": "list.expand",
+        "when": "filesExplorerFocus && explorerResourceIsFolder && !inputFocus"
+    },
+    {
+        "key": "right",
+        "command": "runCommands",
+        "when": "filesExplorerFocus && !explorerResourceIsFolder && !inputFocus",
+        "args": {
+            "commands": [
+                "list.select",
+                "workbench.action.closePanel",
+                "workbench.action.closeSidebar",
+                "workbench.action.focusActiveEditorGroup"
+            ]
+        }
+    },
+    // Explorer の先頭・末尾（編集領域では標準の Ctrl+↑/↓ を維持）
+    {
+        "key": "ctrl+up",
+        "command": "list.focusFirst",
+        "when": "filesExplorerFocus && !inputFocus"
+    },
+    {
+        "key": "ctrl+down",
+        "command": "list.focusLast",
+        "when": "filesExplorerFocus && !inputFocus"
+    },
+
+    // パネルにフォーカスがあるときだけ、問題・出力・ターミナルなどを切り替える
+    {
+        "key": "ctrl+pagedown",
+        "command": "workbench.action.nextPanelView",
+        "when": "panelFocus"
+    },
+    {
+        "key": "ctrl+pageup",
+        "command": "workbench.action.previousPanelView",
+        "when": "panelFocus"
+    }
+]
