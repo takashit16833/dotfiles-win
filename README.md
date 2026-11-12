@@ -34,7 +34,7 @@ PowerToys の設定（Command Palette や Bookmarks）は管理していない�
 
 Mac と同じ操作感になるよう、Windows 用の設定を分けて管理する。
 
-- `vscode/keybindings.json`：Explorer、エディタのタブ、パネルのキー操作
+- `vscode/keybindings.json`：Explorer、エディタのタブ、パネル、Markdown 切り替え、スクロールのキー操作
 - `vscode/settings.json`：補完、JSON 保存時の整形、Markdown Editor の既定設定など。Mac 固有のフォント・パス・見た目の設定は含めない
 
 ### 適用（リポジトリを直接参照）
@@ -96,6 +96,9 @@ foreach ($name in @('keybindings.json', 'settings.json')) {
 | Explorer | `Ctrl+↑/↓` | 先頭／末尾へ移動 |
 | エディタ | `Ctrl+PageUp/Down` | 前／次のタブ |
 | パネル | `Ctrl+PageUp/Down` | 前／次のパネル（問題・出力・ターミナルなど） |
+| Markdown Editor | `Ctrl+E` | 編集・プレビューを切り替える |
+| テキストエディタ | `Alt+PageUp/Down` | 1行ずつスクロール |
+| テキストエディタ | `PageUp/Down` | 半ページずつスクロール |
 
 Explorer / エディタ / パネルのフォーカスに応じて操作が切り替わる。
 
