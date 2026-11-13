@@ -38,6 +38,29 @@ Windows 用 `layer_14` の閉じるキーも `Ctrl + W` を直接送る。
 
 PowerToys の設定（Command Palette や Bookmarks）は管理していない。
 
+## PowerShell プロンプト
+
+外部ツールを使わず、`powershell/prompt.ps1` でプロンプトを表示する。現在のパスはホーム配下なら `~/` で始め、ホーム以外は `C:\` などの絶対パスで表示する。Git 管理下なら現在のブランチを付ける。
+
+```text
+~/workspace/dotfiles-win (main) ❯
+C:\Windows\System32 ❯
+```
+
+### 適用
+
+```powershell
+cd ~/workspace/dotfiles-win
+git pull --ff-only
+.\powershell\install.ps1
+```
+
+現在のユーザーの共通プロファイル（`$PROFILE.CurrentUserAllHosts`）に設定ファイルの読み込みを1行だけ追加し、その場でも反映する。既存のプロファイルは上書きせず、再実行しても重複登録しない。`winget` や追加ソフトは不要。
+
+設定変更は `powershell/prompt.ps1` を編集する。変更後は PowerShell を開き直す。Windows PowerShell 5.1 と PowerShell 7 はプロファイルの保存先が異なるので、両方で使う場合はそれぞれで一度実行する。
+
+解除する場合は `notepad $PROFILE.CurrentUserAllHosts` で開き、追加された `prompt.ps1` の読み込み行を削除する。ほかの設定は残す。
+
 ## VS Code
 
 Mac と同じ操作感になるよう、Windows 用の設定を分けて管理する。
