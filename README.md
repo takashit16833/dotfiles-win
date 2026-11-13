@@ -12,7 +12,7 @@ cd dotfiles-win
 .\install.ps1
 ```
 
-`install.ps1` は旧版の AutoHotkey ウィンドウ配置を停止して自動起動を解除し、PowerToys が未導入なら `winget` でインストールする。**AutoHotkey 本体は削除しない**。既存の導入状態で再実行できる。
+`install.ps1` は旧版の AutoHotkey ウィンドウ配置を停止し、PowerToys が未導入なら `winget` でインストールする。また、AutoHotkey v2 が導入済みなら `Alt + @` のウィンドウ切り替えを起動して自動起動に登録する。**AutoHotkey 本体は追加・削除しない**。既存の導入状態で再実行できる。
 
 ## ウィンドウ配置（ZMK）
 
@@ -20,6 +20,14 @@ cd dotfiles-win
 Windows 用 `layer_14` の閉じるキーも `Ctrl + W` を直接送る。
 
 仮想デスクトップの切り替え `Hyper + C / V` は ZMK 側で引き続き利用できる。
+
+## 同じアプリのウィンドウ切り替え（AutoHotkey）
+
+日本語キーボードの `Alt + @` で、現在のアプリが開いている別ウィンドウへ順番に切り替える（例：VS Code A → B → C → A）。ウィンドウが1つしかない場合は何もしない。
+
+`autohotkey/cycle-window.ahk` を AutoHotkey v2 で実行する。通常は `install.ps1` で常駐開始・サインイン時の自動起動まで登録される。AutoHotkey v2 が見つからない場合は警告して登録を飛ばすため、導入後に `install.ps1` を再実行する。
+
+`uninstall.ps1` でこの常駐処理と自動起動設定も解除する。RDP 接続先の開発端末内のアプリを切り替えるには、接続先でも動作するか別途確認が必要。
 
 ## PowerToys
 
