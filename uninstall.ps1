@@ -32,6 +32,28 @@ if (Test-Path -LiteralPath $shortcutPath -PathType Leaf) {
     Write-Host "Removed startup shortcut: $shortcutPath"
 }
 
+# Alt+@ の常駐スクリプトと自動起動設定も解除する。
+$cycleScript = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot 'autohotkey\cycle-window.ahk'))
+$cycleArgument = '"' + $cycleScript + '"'
+$cyclePattern = [regex]::Escape($cycleArgument) + '(?=\s|$)'
+$cycleProcesses = @(Get-CimInstance Win32_Process -Filter "Name = 'AutoHotkey64.exe'" |
+    Where-Object { $_.CommandLine -and $_.CommandLine -match $cyclePattern })
+foreach ($process in $cycleProcesses) {
+    try {
+        Stop-Process -Id $process.ProcessId -ErrorAction Stop
+        Write-Host "Stopped cycle-window.ahk (PID $($process.ProcessId))"
+    } catch {
+        if (Get-Process -Id $process.ProcessId -ErrorAction SilentlyContinue) {
+            throw
+        }
+    }
+}
+$cycleShortcut = Join-Path $startupDir 'dotfiles-win-cycle-window.lnk'
+if (Test-Path -LiteralPath $cycleShortcut -PathType Leaf) {
+    Remove-Item -LiteralPath $cycleShortcut -Force
+    Write-Host "Removed startup shortcut: $cycleShortcut"
+}
+
 if ($RemoveAutoHotkey) {
     # このセットアップが導入する、現在のユーザー用のAutoHotkeyのみ対象。
     # 他の用途でもAutoHotkeyを使う場合は、このオプションを指定しないこと。
