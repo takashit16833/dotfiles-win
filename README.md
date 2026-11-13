@@ -47,6 +47,19 @@ PowerToys の設定（Command Palette や Bookmarks）は管理していない�
 C:\Windows\System32 ❯
 ```
 
+### 簡易 z：履歴からフォルダへ移動
+
+通常の `cd` などで訪問したフォルダを自動で記録し、`z` と文字列の一部で移動する。**最近訪問した一致先を優先**する。
+
+```powershell
+cd ~/workspace/nagios
+cd ~
+z nag   # ~/workspace/nagios に移動
+```
+
+履歴は `%LOCALAPPDATA%\dotfiles-win\z-history.txt` に保存する（最大200件）。Git には登録しない。存在しなくなったフォルダは移動先に選ばない。`z` は `powershell/z.ps1` に実装し、プロンプト設定を読み込むと一緒に有効になる。`z` の引数はパスの部分一致（大文字・小文字を区別しない）。
+
+すでにプロンプトを導入済みなら、`git pull --ff-only` 後に PowerShell を開き直せば利用できる。現在の画面ですぐ使うなら、リポジトリ直下で `. .\powershell\prompt.ps1` を実行する。
 ### 適用
 
 ```powershell
