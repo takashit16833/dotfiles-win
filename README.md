@@ -40,26 +40,30 @@ PowerToys の設定（Command Palette や Bookmarks）は管理していない�
 
 ## PowerShell プロンプト
 
-外部ツールを使わず、`powershell/prompt.ps1` でプロンプトを表示する。現在のパスはホーム配下なら `~/` で始め、ホーム以外は `C:\` などの絶対パスで表示する。Git 管理下なら現在のブランチを付ける。
+外部のテーマ表示ツールに依存せず、`powershell/prompt.ps1` でプロンプトを表示する。現在のパスはホーム配下なら `~/` で始め、ホーム以外は `C:\` などの絶対パスで表示する。Git 管理下なら現在のブランチを付ける。
 
 ```text
 ~/workspace/dotfiles-win (main) ❯
 C:\Windows\System32 ❯
 ```
 
-### 簡易 z：履歴からフォルダへ移動
+### zoxide / fzf / lazygit
 
-通常の `cd` などで訪問したフォルダを自動で記録し、`z` と文字列の一部で移動する。**最近訪問した一致先を優先**する。
+`powershell/z.ps1` による自作のフォルダ移動機能は廃止し、[zoxide](https://github.com/ajeetdsouza/zoxide) に置き換えた。
+`powershell/install.ps1` は、次の3つが未導入の場合に限って `winget` でインストールする。
 
-```powershell
-cd ~/workspace/nagios
-cd ~
-z nag   # ~/workspace/nagios に移動
-```
+| ツール | 用途 | コマンド |
+| --- | --- | --- |
+| zoxide | 過去に移動したフォルダへ素早く移動 | `z nag` |
+| fzf | 候補を入力しながら絞り込む | `fzf` |
+| lazygit | ターミナル上でGitの状態確認や操作をする | `lazygit` |
 
-履歴は `%LOCALAPPDATA%\dotfiles-win\z-history.txt` に保存する（最大200件）。Git には登録しない。存在しなくなったフォルダは移動先に選ばない。`z` は `powershell/z.ps1` に実装し、プロンプト設定を読み込むと一緒に有効になる。`z` の引数はパスの部分一致（大文字・小文字を区別しない）。
+`cd` で移動した場所は zoxide が自動で学習する。`z nag` は履歴から候補を選び、`zi` は fzf で候補を対話的に選べる。
+fzf は単体コマンドと `zi` で使用する。PowerShell の `Ctrl+R` などのキー割り当ては、この設定では変更しない。
 
-すでにプロンプトを導入済みなら、`git pull --ff-only` 後に PowerShell を開き直せば利用できる。現在の画面ですぐ使うなら、リポジトリ直下で `. .\powershell\prompt.ps1` を実行する。
+旧版の履歴 `%LOCALAPPDATA%\dotfiles-win\z-history.txt` は削除しないが、zoxide へ自動移行もしない。
+zoxide は導入後に訪問したフォルダから学習し直す。
+
 ### 適用
 
 ```powershell
@@ -68,11 +72,23 @@ git pull --ff-only
 .\powershell\install.ps1
 ```
 
-現在のユーザーの共通プロファイル（`$PROFILE.CurrentUserAllHosts`）に設定ファイルの読み込みを1行だけ追加し、その場でも反映する。既存のプロファイルは上書きせず、再実行しても重複登録しない。`winget` や追加ソフトは不要。
+現在のユーザーの共通プロファイル（`$PROFILE.CurrentUserAllHosts`）に `prompt.ps1` の読み込みを1行だけ追加する。既存のプロファイルは上書きせず、再実行しても重複登録しない。
+ツールの新規インストール直後は、環境変数 PATH の更新を反映するため **PowerShell を開き直す**。PowerShell 5.1 と PowerShell 7 の両方を利用する場合は、それぞれで1回ずつ設定を適用する。
 
-設定変更は `powershell/prompt.ps1` を編集する。変更後は PowerShell を開き直す。Windows PowerShell 5.1 と PowerShell 7 はプロファイルの保存先が異なるので、両方で使う場合はそれぞれで一度実行する。
+`zoxide` が利用できる環境では `prompt.ps1` から公式の `zoxide init powershell` を読み込む。未導入でも独自プロンプト表示は動作する。
+`winget` が利用できない場合は自動インストールを行わず、エラーを表示する。会社PCでは各ツールの導入が許可されていることを確認する。
 
-解除する場合は `notepad $PROFILE.CurrentUserAllHosts` で開き、追加された `prompt.ps1` の読み込み行を削除する。ほかの設定は残す。
+確認例：
+
+```powershell
+zoxide --version
+fzf --version
+lazygit --version
+Get-Command z, zi
+```
+
+プロンプトの表示だけを変更する場合は `powershell/prompt.ps1` を編集し、PowerShell を開き直す。
+設定を解除するには `notepad $PROFILE.CurrentUserAllHosts` でプロファイルを開き、追加された `prompt.ps1` の読み込み行を削除する。これだけでは導入済みの3ツールはアンインストールされない。
 
 ## VS Code
 

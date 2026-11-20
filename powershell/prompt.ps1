@@ -1,6 +1,3 @@
-﻿# z の訪問履歴保存と移動コマンドを利用できるようにする。
-. (Join-Path $PSScriptRoot 'z.ps1')
-
 function global:prompt {
     $location = Get-Location
     $locationPath = $location.Path
@@ -15,9 +12,6 @@ function global:prompt {
     elseif ($locationPath.StartsWith($homePath + '\', [StringComparison]::OrdinalIgnoreCase)) {
         $displayPath = '~/' + $locationPath.Substring($homePath.Length + 1).Replace('\', '/')
     }
-
-    # プロンプトが表示されるたびに、訪問したフォルダを記録する。
-    Save-ZLocation
 
     # Git のブランチ名を表示する。Git 管理外では表示しない。
     # ファイルシステム以外（レジストリなど）では Git を呼び出さない。
@@ -43,4 +37,10 @@ function global:prompt {
 
     # PowerShell は prompt 関数が返した文字列を入力待ちの記号に使う。
     return " $([char]0x276F) "
+}
+
+# 独自プロンプトの定義後に zoxide を初期化する。
+# zoxide は現在の prompt を包んでフォルダの訪問を記録する。
+if (Get-Command zoxide -CommandType Application -ErrorAction SilentlyContinue) {
+    Invoke-Expression (& { (zoxide init powershell | Out-String) })
 }
