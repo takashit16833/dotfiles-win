@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
 # 必要なツールだけ winget で導入する。すでに利用可能なら再インストールしない。
 $packages = @(

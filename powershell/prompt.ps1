@@ -1,4 +1,4 @@
-function global:prompt {
+﻿function global:prompt {
     $location = Get-Location
     $locationPath = $location.Path
     $homePath = $HOME.TrimEnd('\')
