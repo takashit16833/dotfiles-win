@@ -25,6 +25,18 @@ if ($missing.Count -gt 0) {
     Write-Host 'インストール後は PowerShell を開き直して PATH の更新を反映してください。'
 }
 
+
+# PSFzf supplies the Ctrl+R fuzzy history search for PSReadLine.
+# Install the module only once, to the current user.
+if (-not (Get-Module -ListAvailable -Name PSFzf)) {
+    if (-not (Get-Command Install-Module -ErrorAction SilentlyContinue)) {
+        throw 'Install-Module is unavailable. PowerShellGet is required to install PSFzf.'
+    }
+
+    Write-Host 'Installing PSFzf (PowerShell Gallery)...'
+    Install-Module -Name PSFzf -Scope CurrentUser -Repository PSGallery -Force -ErrorAction Stop
+}
+
 # プロンプトの設定本体はリポジトリから直接読み込む。
 $promptScript = [IO.Path]::GetFullPath((Join-Path $PSScriptRoot 'prompt.ps1'))
 $profilePath = $PROFILE.CurrentUserAllHosts

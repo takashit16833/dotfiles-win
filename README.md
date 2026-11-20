@@ -59,7 +59,8 @@ C:\Windows\System32 ❯
 | lazygit | ターミナル上でGitの状態確認や操作をする | `lazygit` |
 
 `cd` で移動した場所は zoxide が自動で学習する。`z nag` は履歴から候補を選び、`zi` は fzf で候補を対話的に選べる。
-fzf は単体コマンドと `zi` で使用する。PowerShell の `Ctrl+R` などのキー割り当ては、この設定では変更しない。
+fzf は単体コマンドと `zi` で使用する。さらにPowerShell用の[PSFzf](https://github.com/kelleyma49/PSFzf)を導入し、`Ctrl+R` をPSReadLineのコマンド履歴の絞り込み検索へ割り当てる。
+検索画面では文字入力で候補を絞り、矢印キーで選び、Enterでコマンドを**入力欄に戻すだけ**（実行はしない）。Escでキャンセルできる。
 
 旧版の履歴 `%LOCALAPPDATA%\dotfiles-win\z-history.txt` は削除しないが、zoxide へ自動移行もしない。
 zoxide は導入後に訪問したフォルダから学習し直す。
@@ -73,10 +74,11 @@ git pull --ff-only
 ```
 
 現在のユーザーの共通プロファイル（`$PROFILE.CurrentUserAllHosts`）に `prompt.ps1` の読み込みを1行だけ追加する。既存のプロファイルは上書きせず、再実行しても重複登録しない。
+PSFzfはPowerShell Galleryから現在のユーザーにのみ導入し、既存のものは再インストールしない。PowerShellの起動時にPSReadLine→PSFzfの順に読み込み、Ctrl+Rを割り当てる。PSFzfまたはfzfがない場合は既存のCtrl+Rの動作を変更しない。
 ツールの新規インストール直後は、環境変数 PATH の更新を反映するため **PowerShell を開き直す**。PowerShell 5.1 と PowerShell 7 の両方を利用する場合は、それぞれで1回ずつ設定を適用する。
 
 `zoxide` が利用できる環境では `prompt.ps1` から公式の `zoxide init powershell` を読み込む。未導入でも独自プロンプト表示は動作する。
-`winget` が利用できない場合は自動インストールを行わず、エラーを表示する。会社PCでは各ツールの導入が許可されていることを確認する。
+`winget` が利用できない場合は自動インストールを行わず、エラーを表示する。PSFzfの導入にはPowerShellGet（`Install-Module`）とPowerShell Galleryへの接続が必要。会社PCでは各ツールの導入が許可されていることを確認する。
 
 確認例：
 
@@ -85,6 +87,7 @@ zoxide --version
 fzf --version
 lazygit --version
 Get-Command z, zi
+Get-PSReadLineKeyHandler | Where-Object { $_.Key -eq 'Ctrl+r' }
 ```
 
 プロンプトの表示だけを変更する場合は `powershell/prompt.ps1` を編集し、PowerShell を開き直す。

@@ -44,3 +44,11 @@
 if (Get-Command zoxide -CommandType Application -ErrorAction SilentlyContinue) {
     Invoke-Expression (& { (zoxide init powershell | Out-String) })
 }
+
+# PSReadLine history search with fzf. Keep the default Ctrl+R behavior if unavailable.
+if ((Get-Command fzf -CommandType Application -ErrorAction SilentlyContinue) -and
+    (Get-Module -ListAvailable -Name PSFzf)) {
+    Import-Module PSReadLine -ErrorAction Stop
+    Import-Module PSFzf -ErrorAction Stop
+    Set-PsFzfOption -PSReadlineChordReverseHistory 'Ctrl+r'
+}
