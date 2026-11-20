@@ -42,6 +42,10 @@
 # 独自プロンプトの定義後に zoxide を初期化する。
 # zoxide は現在の prompt を包んでフォルダの訪問を記録する。
 if (Get-Command zoxide -CommandType Application -ErrorAction SilentlyContinue) {
+    # このファイルを再読み込みすると、上で prompt が再定義される。
+    # 初期化済みフラグを戻さないと zoxide がフックの再登録を省略するため、
+    # 毎回新しい prompt に対して記録用フックを登録し直す。
+    $global:__zoxide_hooked = 0
     Invoke-Expression (& { (zoxide init powershell | Out-String) })
 }
 
