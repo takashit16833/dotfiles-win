@@ -56,11 +56,13 @@ C:\Windows\System32 ❯
 | --- | --- | --- |
 | zoxide | 過去に移動したフォルダへ素早く移動 | `z nag` |
 | fzf | 候補を入力しながら絞り込む | `fzf` |
-| lazygit | ターミナル上でGitの状態確認や操作をする | `lazygit` |
+| lazygit | ターミナル上でGitの状態確認や操作をする | `lg`（`lazygit` の別名） |
 
-`cd` で移動した場所は zoxide が自動で学習する。`z nag` は履歴から候補を選び、`zi` は fzf で候補を対話的に選べる。
+`cd` で移動した場所は zoxide が自動で学習する。`z nag` は履歴から候補を選び、`zi` は fzf で候補を対話的に選べる。`zi nag` で候補を絞り込んでから選択できる（公式の標準機能なので設定追加不要）。
 fzf は単体コマンドと `zi` で使用する。さらにPowerShell用の[PSFzf](https://github.com/kelleyma49/PSFzf)を導入し、`Ctrl+R` をPSReadLineのコマンド履歴の絞り込み検索へ割り当てる。
 検索画面では文字入力で候補を絞り、矢印キーで選び、Enterでコマンドを**入力欄に戻すだけ**（実行はしない）。Escでキャンセルできる。
+
+`lg` は `prompt.ps1` で定義する。`lazygit` が導入されており、既存の `lg` コマンドがない場合だけ追加する。既存のキー設定は変更しない。
 
 旧版の履歴 `%LOCALAPPDATA%\dotfiles-win\z-history.txt` は削除しないが、zoxide へ自動移行もしない。
 zoxide は導入後に訪問したフォルダから学習し直す。
@@ -86,7 +88,7 @@ PSFzfはPowerShell Galleryから現在のユーザーにのみ導入し、既存
 zoxide --version
 fzf --version
 lazygit --version
-Get-Command z, zi
+Get-Command z, zi, lg
 Get-PSReadLineKeyHandler | Where-Object { $_.Key -eq 'Ctrl+r' }
 ```
 

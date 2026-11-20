@@ -52,3 +52,9 @@ if ((Get-Command fzf -CommandType Application -ErrorAction SilentlyContinue) -an
     Import-Module PSFzf -ErrorAction Stop
     Set-PsFzfOption -PSReadlineChordReverseHistory 'Ctrl+r'
 }
+
+# lazygit shortcut; preserve another command already named lg.
+if ((Get-Command lazygit -CommandType Application -ErrorAction SilentlyContinue) -and
+    -not (Get-Command lg -ErrorAction SilentlyContinue)) {
+    Set-Alias -Name lg -Value lazygit -Scope Global
+}
