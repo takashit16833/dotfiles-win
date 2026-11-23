@@ -87,6 +87,18 @@ fzf は単体コマンドと `zi` で使用する。さらにPowerShell用の[PS
 旧版の履歴 `%LOCALAPPDATA%\dotfiles-win\z-history.txt` は削除しないが、zoxide へ自動移行もしない。
 zoxide は導入後に訪問したフォルダから学習し直す。
 
+### fnm（Node.js）
+
+fnm が導入済みなら、PowerShell 起動時に `prompt.ps1` が `fnm env --use-on-cd --shell powershell` を適用する。Node.js 自体や fnm は自動インストールしない。`.node-version` 等があるフォルダへ移動した場合も切り替わる。fnm が未導入なら何もしない。
+
+既に fnm に Node.js が導入されている場合は、以下で確認する。
+
+```powershell
+fnm current
+node --version
+npm --version
+```
+
 ### 適用
 
 ```powershell
