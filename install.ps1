@@ -1,4 +1,4 @@
-$ErrorActionPreference = 'Stop'
+﻿$ErrorActionPreference = 'Stop'
 
 # 旧版の AutoHotkey によるウィンドウ配置を停止し、自動起動を解除する。
 # AutoHotkey 本体はアンインストールしない。
