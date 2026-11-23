@@ -1,5 +1,6 @@
 #Requires AutoHotkey v2.0
 #SingleInstance Force
+#Include %A_ScriptDir%\window-layout.ahk
 
 ; Japanese keyboard: physical @ key (scan code 01A).
 !sc01A::CycleAppWindows()
