@@ -16,22 +16,26 @@ cd dotfiles-win
 
 ## ウィンドウ配置（AutoHotkey v2）
 
-`autohotkey/window-layout.ahk` で、現在操作しているウィンドウをディスプレイの左右・中央に配置する。`cycle-window.ahk` から読み込むため、**既存の `Alt + @` と同じ常駐プロセス**で動作する。
+`autohotkey/window-layout.ahk` は macOS の `.hammerspoon/init.lua` にある配置操作に合わせている。`cycle-window.ahk` から読み込むため、既存の `Alt + @` と同じ AutoHotkey プロセスで動く。
 
-| 操作 | キーボードの割り当て用キー | Windows の通常キー操作 |
+| 操作 | Windows の Hyper（`Ctrl + Alt + Win`） | ZMK から送れる専用キー |
 | --- | --- | --- |
-| 左 1/3 | `F19` | `Ctrl + Alt + Win + I` |
-| 中央 1/3 | `F20` | `Ctrl + Alt + Win + O` |
-| 右 1/3 | `F21` | `Ctrl + Alt + Win + -` |
-| 左 2/3 | `Shift + F19` | `Ctrl + Alt + Win + Shift + I` |
-| 右 2/3 | `Shift + F21` | `Ctrl + Alt + Win + Shift + -` |
-| 最大化／元に戻す | `F22` | `Ctrl + Alt + Win + A` |
+| 左：横幅2400以上の画面では1/3、未満では1/2 | `Hyper + I` | `F19` |
+| 中央1/3 | `Hyper + O` | `F20` |
+| 右：横幅2400以上の画面では1/3、未満では1/2 | `Hyper + -` | `F21` |
+| 左2/3（画面幅を問わない） | `Hyper + Shift + I` | `Shift + F19` |
+| 右2/3（画面幅を問わない） | `Hyper + Shift + -` | `Shift + F21` |
+| 最大化と変更前の位置・大きさへの復元 | `Hyper + A` | `F22` |
+| 次のモニターへウィンドウを移動 | `Hyper + Tab` | — |
+| 前のモニターへウィンドウを移動 | `Hyper + Shift + Tab` | — |
 
-`-` は日本語キーボードでも使えるよう物理キー位置（`SC00C`）で判定する。配置先は対象ウィンドウが主に存在するディスプレイで、タスクバーを除いた領域を使用する。**最大化**は Windows の通常の最大化であり、ブラウザの `F11` のような全画面表示とは異なる。
+Windows の `Hyper` は `Ctrl + Alt + Win` の同時押し。`-` は物理キー（`SC00C`）で検出する。モニター移動では移動先の画面サイズに合わせて相対位置・大きさを維持する。複数画面の巡回順序は Windows のモニター列挙順で、画面の物理的な左右順とは限らない。
 
-ZMK 側の現在の `Hyper + I / O / - / A` は Windows 標準の `Win + 矢印` などを送る設定であり、この機能へ**自動では切り替わらない**。Hammerspoon と同じ物理キー操作で使うには、ZMK の送信キーを `F19`～`F22`（または上表のキーの組み合わせ）へ変更する必要がある。それまでは通常キー操作で利用でき、既存の `Win + 矢印` も引き続き使用できる。
+**画面幅の判定について：** macOS はポイント単位で2400以上を判定するが、Windows 側は AutoHotkey から取得した作業領域の幅（Windows座標）で2400以上を判定する。表示倍率が異なる環境では同じ物理画面でも判定結果が異なる可能性がある。実機の画面幅と動作は確認が必要。
 
-適用するには PowerShell で次を実行する（既存の `Alt + @` の常駐処理も再起動する）。
+**ZMK の割り当ては別：** Windows 用 ZMK の `Hyper + I / O / - / A` は以前の Windows 標準 `Win + 矢印` 等を送る設定のまま。Mac と同じ物理操作を使うには、ZMK 側を `Ctrl + Alt + Win + キー` または `F19`～`F22` に変更する必要がある。それまでは Windows のキーボードからショートカットを入力する。
+
+適用コマンド（PowerShell）：
 
 ```powershell
 cd ~/workspace/dotfiles-win
@@ -39,7 +43,7 @@ git pull --ff-only
 .\install.ps1
 ```
 
-Windows 用 `layer_14` の閉じるキーは `Ctrl + W`、仮想デスクトップの切り替え `Hyper + C / V` は引き続き ZMK 側で処理する。リモートデスクトップ内のウィンドウには、接続先でこのスクリプトを動かす必要がある場合がある。
+ウィンドウ配置は現在操作中のウィンドウに対して行う。RDP 接続先のウィンドウには、接続先でもこのスクリプトを動かす必要がある場合がある。Windows 用 `layer_14` の閉じるキーは `Ctrl + W`、仮想デスクトップの切り替え `Hyper + C / V` は ZMK 側の設定を使う。
 
 ## 同じアプリのウィンドウ切り替え（AutoHotkey）
 
