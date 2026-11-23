@@ -203,6 +203,28 @@ foreach ($name in @('keybindings.json', 'settings.json')) {
 
 Explorer / エディタ / パネルのフォーカスに応じて操作が切り替わる。
 
+## Obsidian（Noctis Blue One Dark）
+
+Mac と共通の CSS を利用する。配色の定義を Windows 側には複製せず、`~/workspace/dotfiles/obsidian/css` の2ファイルを Obsidian の保管庫にコピーする。Mac 用の `dotfiles/install.sh` は Windows で実行しない。
+
+まだ共通リポジトリがない場合:
+
+```powershell
+cd ~/workspace
+git clone https://github.com/takashit16833/dotfiles.git
+```
+
+Obsidian の保管庫フォルダ（中に `.obsidian` がある場所）を指定して実行する:
+
+```powershell
+cd ~/workspace/dotfiles-win
+.\obsidian\install.ps1 -VaultPath 'C:\path\to\your\vault'
+```
+
+`retro-hacker-blue-base.css` と `noctis-blue-one-dark.css` を `.obsidian/snippets` に配置する。同名ファイルの内容が異なる場合は、日時付きバックアップを残してから更新する。同じ内容なら何もしない。既存の Obsidian の設定ファイルには触れない。
+
+Obsidian の「設定 → 外観」でテーマを「デフォルト」、配色をダークにし、「CSS スニペット」で2つを有効にする（初回はスニペット一覧を再読み込みする）。後日、`dotfiles` を `git pull --ff-only` で更新したら同じスクリプトを再実行する。
+
 ## 旧 AutoHotkey 設定の解除・アンインストール
 
 旧版で起動した `window.ahk` と自動起動ショートカットだけを解除する場合:
