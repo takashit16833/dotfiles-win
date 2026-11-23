@@ -49,6 +49,13 @@ if (Get-Command zoxide -CommandType Application -ErrorAction SilentlyContinue) {
     Invoke-Expression (& { (zoxide init powershell | Out-String) })
 }
 
+# fnm が導入されている場合、PowerShell 起動時に Node.js の使用環境を設定する。
+# --use-on-cd により .node-version 等があればディレクトリ移動時に切り替える。
+# fnm が未導入なら既存のシェル動作を変えない。
+if (Get-Command fnm -CommandType Application -ErrorAction SilentlyContinue) {
+    fnm env --use-on-cd --shell powershell | Out-String | Invoke-Expression
+}
+
 # PSReadLine history search with fzf. Keep the default Ctrl+R behavior if unavailable.
 if ((Get-Command fzf -CommandType Application -ErrorAction SilentlyContinue) -and
     (Get-Module -ListAvailable -Name PSFzf)) {
