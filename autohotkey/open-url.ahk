@@ -1,5 +1,3 @@
-#Requires AutoHotkey v2.0
-
 ; Hyper+U (Ctrl+Alt+Win+U) or F23 from the Windows ZMK layer.
 ; Clipboard is read-only: no Ctrl+C is sent and previous clipboard data is kept.
 ^!#u::OpenClipboardUrlInEdge()
