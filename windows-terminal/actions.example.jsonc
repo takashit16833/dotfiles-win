@@ -1,19 +1,9 @@
 {
-    // Merge these entries into Windows Terminal settings.json > actions.
-    // Do not replace the entire settings.json or existing actions.
-    "profiles": { "defaults": { "autoMarkPrompts": true } },
+    // Merge these bindings into Windows Terminal settings.json > actions.
+    // Preserve existing settings and resolve duplicate key bindings.
     "actions": [
         { "command": { "action": "prevTab", "tabSwitcherMode": "inOrder" }, "keys": "ctrl+pgup" },
         { "command": { "action": "nextTab", "tabSwitcherMode": "inOrder" }, "keys": "ctrl+pgdn" },
-        {
-            "command": {
-                "action": "multipleActions",
-                "actions": [
-                    { "action": "selectOutput", "direction": "prev" },
-                    { "action": "copy", "singleLine": false }
-                ]
-            },
-            "keys": "ctrl+alt+c"
-        }
+        { "command": "closeTab", "keys": "ctrl+w" }
     ]
 }
