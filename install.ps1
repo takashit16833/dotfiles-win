@@ -32,3 +32,15 @@ if ($ahkExe) {
 } else {
     Write-Warning 'AutoHotkey v2 was not found; Alt+@ is not enabled. Install AutoHotkey v2, then rerun install.ps1.'
 }
+
+# Apply Windows Terminal tab shortcuts if Node.js is available.
+# Keep other Terminal settings and skip when Terminal has not been configured.
+if (Get-Command node -CommandType Application -ErrorAction SilentlyContinue) {
+    try {
+        & (Join-Path $PSScriptRoot 'windows-terminal\install.ps1')
+    } catch {
+        Write-Warning "Windows Terminal shortcut setup skipped: $_"
+    }
+} else {
+    Write-Host 'Node.js is unavailable; Windows Terminal shortcuts were not applied.'
+}
