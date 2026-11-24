@@ -227,9 +227,15 @@ Obsidian の「設定 → 外観」でテーマを「デフォルト」、配色
 
 ## Windows Terminal
 
-`windows-terminal/actions.example.jsonc` にタブ移動とタブを閉じるショートカットの設定例を用意している。
+`windows-terminal/install.ps1` でタブのショートカットを自動設定する。既存の `settings.json` の内容やコメントを保ちながら、必要な項目だけ追加する。変更前には同じフォルダに日時付きバックアップを作成する。何度実行しても同じ項目を重複追加しない。キーの割り当てが競合している場合は、勝手に上書きせずエラーで停止する。
 
-Windows Terminal の「設定 → JSON ファイルを開く」から `settings.json` を開き、設定例の `actions` 配列の3項目を**既存の `actions` 配列に追加**する。設定ファイル全体や既存の `actions` は置き換えない。同じキーに既存の割り当てがあれば、重複しないように調整する。
+```powershell
+cd ~/workspace/dotfiles-win
+git pull --ff-only
+.\windows-terminal\install.ps1
+```
+
+`install.ps1` 全体を実行する場合にも、Node.js が使用可能なら自動で適用する。Windows Terminal がまだ設定ファイルを作成していない場合は何もしない。Node.js は自動インストールしない。
 
 | キー | 動作 |
 | --- | --- |
@@ -237,7 +243,9 @@ Windows Terminal の「設定 → JSON ファイルを開く」から `settings.
 | `Ctrl+PageDown` | 右のタブ（表示順） |
 | `Ctrl+W` | 現在のタブを閉じる |
 
-「賢いコピー」の独自設定は追加せず、コピーは Windows Terminal 標準動作のまま使用する。以前の設定例から `Ctrl+Alt+C` の `multipleActions` と `profiles.defaults.autoMarkPrompts` を追加済みの場合は、不要なら削除してよい（ほかの用途で利用している場合は残す）。
+設定ファイルが複数見つかる場合（正式版・Preview版など）は、自動でどちらかを選ばず停止する。適用対象を指定する場合は `-SettingsPath 'C:\...\settings.json'` を付ける。
+
+「賢いコピー」は独自設定せず、Windows Terminal の標準コピーを利用する。以前手動で追加した `Ctrl+Alt+C` や `autoMarkPrompts` は自動削除しないため、不要なら利用者が確認して解除する。
 
 ## 旧 AutoHotkey 設定の解除・アンインストール
 
