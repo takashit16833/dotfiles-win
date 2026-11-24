@@ -6,6 +6,11 @@
 ; Japanese keyboard: physical @ key (scan code 01A).
 !sc01A::CycleAppWindows()
 
+; Remap Alt+Down to Enter only while a File Explorer window is active.
+#HotIf WinActive("ahk_class CabinetWClass")
+!Down::Send "{Enter}"
+#HotIf
+
 CycleAppWindows() {
     static orderByExe := Map()
 

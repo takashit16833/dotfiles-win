@@ -55,6 +55,12 @@ git pull --ff-only
 
 `uninstall.ps1` でこの常駐処理と自動起動設定も解除する。RDP 接続先の開発端末内のアプリを切り替えるには、接続先でも動作するか別途確認が必要。
 
+## ファイルエクスプローラーのフォルダー操作
+
+`autohotkey/cycle-window.ahk` が起動している間、Windows のファイルエクスプローラーでだけ `Alt + ↓` を `Enter` と同じ動作にする。選択したフォルダーを開くほか、ファイルなどではその場所での `Enter` の通常動作を実行する。`Alt + ↑`（親フォルダーへ移動）やほかのアプリの操作は変更しない。
+
+適用するには `git pull --ff-only` で更新後、常駐中の `cycle-window.ahk` を再読み込みする。再サインイン時には自動起動の設定から新しい内容が読み込まれる。既存の常駐処理を利用するため、専用キーや追加のスクリプト起動は不要。
+
 ## 選択したURLをEdgeで開く
 
 AutoHotkey v2の `autohotkey/open-url.ahk` を `cycle-window.ahk` から読み込み、選択中のURL文字列をMicrosoft Edgeで開く。新しい常駐プロセスや追加ツールは不要。
