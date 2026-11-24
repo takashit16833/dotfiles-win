@@ -51,11 +51,50 @@ PlaceActiveWindow(position, requestedFraction := 0) {
 
     x1 := area.left + Floor(screenWidth * start)
     x2 := area.left + Floor(screenWidth * (start + fraction))
-    WinMove(x1, area.top, x2 - x1, screenHeight, win)
+    ; WinMove positions the outer (invisible) resize frame, not the visible edge.
+    ; Read the actual DWM frame deltas for this window instead of hardcoding pixels.
+    frame := VisibleFrameInsets(hwnd)
+    WinMove(
+        x1 - frame.left,
+        area.top - frame.top,
+        (x2 - x1) + frame.left + frame.right,
+        screenHeight + frame.top + frame.bottom,
+        win
+    )
 
     ; An explicit placement supersedes the remembered maximize/restore state.
     if maximizedWindowFrames.Has(hwnd)
         maximizedWindowFrames.Delete(hwnd)
+}
+
+VisibleFrameInsets(hwnd) {
+    win := "ahk_id " hwnd
+    WinGetPos(&x, &y, &w, &h, win)
+
+    ; DWMWA_EXTENDED_FRAME_BOUNDS = 9; screen-pixel coordinates.
+    rect := Buffer(16, 0)
+    result := DllCall(
+        "dwmapi\\DwmGetWindowAttribute",
+        "ptr", hwnd, "uint", 9, "ptr", rect, "uint", rect.Size, "int"
+    )
+    if result != 0
+        return {left: 0, top: 0, right: 0, bottom: 0}
+
+    visibleLeft := NumGet(rect, 0, "int")
+    visibleTop := NumGet(rect, 4, "int")
+    visibleRight := NumGet(rect, 8, "int")
+    visibleBottom := NumGet(rect, 12, "int")
+
+    ; If the coordinates are not comparable, keep the previous behavior.
+    left := visibleLeft - x
+    top := visibleTop - y
+    right := x + w - visibleRight
+    bottom := y + h - visibleBottom
+    if (left < 0 || top < 0 || right < 0 || bottom < 0
+        || left > 64 || top > 64 || right > 64 || bottom > 64)
+        return {left: 0, top: 0, right: 0, bottom: 0}
+
+    return {left: left, top: top, right: right, bottom: bottom}
 }
 
 ToggleActiveMaximize() {
