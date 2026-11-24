@@ -74,7 +74,7 @@ VisibleFrameInsets(hwnd) {
     ; DWMWA_EXTENDED_FRAME_BOUNDS = 9; screen-pixel coordinates.
     rect := Buffer(16, 0)
     result := DllCall(
-        "dwmapi\\DwmGetWindowAttribute",
+        "dwmapi\DwmGetWindowAttribute",
         "ptr", hwnd, "uint", 9, "ptr", rect, "uint", rect.Size, "int"
     )
     if result != 0
