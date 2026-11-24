@@ -55,6 +55,27 @@ git pull --ff-only
 
 `uninstall.ps1` でこの常駐処理と自動起動設定も解除する。RDP 接続先の開発端末内のアプリを切り替えるには、接続先でも動作するか別途確認が必要。
 
+## クリップボードのURLをEdgeで開く
+
+AutoHotkey v2の `autohotkey/open-url.ahk` を `cycle-window.ahk` から読み込み、コピー済みのURLをMicrosoft Edgeで開く。新しい常駐プロセスや追加ツールは不要。
+
+| 操作 | 動作 |
+| --- | --- |
+| `Hyper + U`（Windows: Ctrl+Alt+Win+U） | コピー済みのURLをEdgeで開く |
+| ZMK Windows Hyper + U | `F23`を送信して同じ操作を実行 |
+
+`http://` または `https://` で始まる単一のURLのみ受け付け、前後の空白と改行は取り除く。URL以外なら何もせず、クリップボードの内容は変更しない。選択中の文字列の自動コピーは行わない。Edge実行ファイルが見つからない場合や起動できない場合は通知する。
+
+Windows側の適用方法：
+
+```powershell
+cd ~/workspace/dotfiles-win
+git pull --ff-only
+.\install.ps1
+```
+
+ZMKで `Hyper + U` を使うには、`zmk-keyboard-torabo-tsuki-lp` の最新ファームウェアをビルド・書き込みする。未書き込みでもWindowsのキーボードから `Ctrl+Alt+Win+U` で動作確認できる。
+
 ## PowerToys
 
 ```powershell
