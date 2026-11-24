@@ -62,7 +62,7 @@ AutoHotkey v2の `autohotkey/open-url.ahk` を `cycle-window.ahk` から読み�
 | 操作 | 動作 |
 | --- | --- |
 | `Hyper + U`（Windows: Ctrl+Alt+Win+U） | コピー済みのURLをEdgeで開く |
-| ZMK Windows Hyper + U | `F23`を送信して同じ操作を実行 |
+| ZMK Windows Hyper + U | `Ctrl+Alt+Win+U` を直接送信して同じ操作を実行 |
 
 `http://` または `https://` で始まる単一のURLのみ受け付け、前後の空白と改行は取り除く。URL以外なら何もせず、クリップボードの内容は変更しない。選択中の文字列の自動コピーは行わない。Edge実行ファイルが見つからない場合や起動できない場合は通知する。
 
