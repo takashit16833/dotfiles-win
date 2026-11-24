@@ -1,0 +1,23 @@
+{
+  "name": "Noctis Blue One Dark",
+  "background": "#161C28",
+  "foreground": "#A6CAFF",
+  "cursorColor": "#5EAFFF",
+  "selectionBackground": "#354866",
+  "black": "#000000",
+  "red": "#FF4DE1",
+  "green": "#7ED9B5",
+  "yellow": "#FFD700",
+  "blue": "#5EAFFF",
+  "purple": "#966CCA",
+  "cyan": "#00CED1",
+  "white": "#A6CAFF",
+  "brightBlack": "#8290B1",
+  "brightRed": "#FF80EB",
+  "brightGreen": "#7ED9B5",
+  "brightYellow": "#FFD700",
+  "brightBlue": "#7CBEFF",
+  "brightPurple": "#B07CFF",
+  "brightCyan": "#00FFFF",
+  "brightWhite": "#D7E9FF"
+}
