@@ -1,12 +1,31 @@
 ; Hyper+U sends Ctrl+Alt+Win+U from a keyboard or ZMK.
-; Clipboard is read-only: no Ctrl+C is sent and previous clipboard data is kept.
+; Open the currently selected URL in Edge without permanently replacing clipboard data.
 ^!#u::OpenClipboardUrlInEdge()
 
 OpenClipboardUrlInEdge() {
-    url := Trim(A_Clipboard, " `t`r`n")
+    ; Let the Hyper shortcut keys go before sending Ctrl+C.
+    ; Otherwise Ctrl+Alt+Win+C may reach the focused application.
+    for key in ["u", "Ctrl", "Alt", "LWin", "RWin"] {
+        if !KeyWait(key, "T1")
+            return
+    }
+
+    ; ClipboardAll preserves text, images and other clipboard formats.
+    ; Only the newly copied selection is used; stale clipboard URLs are ignored.
+    savedClipboard := ClipboardAll()
+    url := ""
+    try {
+        A_Clipboard := ""
+        Send("^c")
+        if ClipWait(0.8)
+            url := Trim(A_Clipboard, " `t`r`n")
+    } finally {
+        A_Clipboard := savedClipboard
+    }
+
     ; Only accept a single HTTP(S) URL with a non-empty host.
     ; In particular, quotes, whitespace and backslashes cannot become arguments.
-    if !RegExMatch(url, 'i)^https?://[^/\s?#"<>\\]+(?:[/?#][^\s"<>\\]*)?$')
+    if !RegExMatch(url, 'i)^https?://[^/\\s?#"<>\\\\]+(?:[/?#][^\\s"<>\\\\]*)?$')
         return
 
     edge := FindEdgeExecutable()
