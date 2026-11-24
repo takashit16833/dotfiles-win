@@ -31,6 +31,8 @@ cd dotfiles-win
 
 Windows の `Hyper` は `Ctrl + Alt + Win` の同時押し。`-` は物理キー（`SC00C`）で検出する。モニター移動では移動先の画面サイズに合わせて相対位置・大きさを維持する。複数画面の巡回順序は Windows のモニター列挙順で、画面の物理的な左右順とは限らない。
 
+**不可視のウィンドウ枠の補正：** `WinMove` はWindowsの不可視のサイズ変更枠を含むため、配置時に DWM の表示範囲（`DWMWA_EXTENDED_FRAME_BOUNDS`）を取得し、上下左右の差を補正する。取得できない場合や不自然な差の場合は補正を行わず従来どおり配置する。実測例では左右それぞれ9pxの差があった。補正後の見た目はWindows実機で確認する。
+
 **画面幅の判定について：** macOS はポイント単位で2400以上を判定するが、Windows 側は AutoHotkey から取得した作業領域の幅（Windows座標）で2400以上を判定する。表示倍率が異なる環境では同じ物理画面でも判定結果が異なる可能性がある。実機の画面幅と動作は確認が必要。
 
 **ZMK 側も対応済み：** `zmk-keyboard-torabo-tsuki-lp` の Windows Hyper レイヤー（layer_15）は、`Hyper + I / O / - / A` から `F19 / F20 / F21 / F22` を送る。`Shift + Hyper + I / -` は `Shift + F19 / F21`、`Hyper + Tab` は `Ctrl + Alt + Win + Tab`（Shift付きで逆方向）を送る。`Hyper + C/V` のRDP用マクロは維持している。使用前にZMKの更新ファームウェアを書き込み、Windows側で `cycle-window.ahk` が起動していることを確認する。
