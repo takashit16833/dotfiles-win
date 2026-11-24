@@ -227,7 +227,7 @@ Obsidian の「設定 → 外観」でテーマを「デフォルト」、配色
 
 ## Windows Terminal
 
-`windows-terminal/install.ps1` でタブのショートカットを自動設定する。既存の `settings.json` の内容やコメントを保ちながら、必要な項目だけ追加する。変更前には同じフォルダに日時付きバックアップを作成する。何度実行しても同じ項目を重複追加しない。キーの割り当てが競合している場合は、勝手に上書きせずエラーで停止する。
+`windows-terminal/install.ps1` は、タブ操作のキー割り当てと **Noctis Blue One Dark** の配色を `settings.json` に自動適用する。既存の配色・プロファイル・コメントは維持し、更新前には日時付きバックアップを保存する。同じ状態での再実行は変更しない。
 
 ```powershell
 cd ~/workspace/dotfiles-win
@@ -235,7 +235,9 @@ git pull --ff-only
 .\windows-terminal\install.ps1
 ```
 
-`install.ps1` 全体を実行する場合にも、Node.js が使用可能なら自動で適用する。Windows Terminal がまだ設定ファイルを作成していない場合は何もしない。Node.js は自動インストールしない。
+`install.ps1` 全体を実行する場合にも、Node.js が使用可能なら自動適用する。Windows Terminal の `settings.json` がない場合は何もしない。Node.js は自動インストールしない。
+
+配色定義は `windows-terminal/noctis-blue-one-dark.scheme.json` に保存し、`vscode-noctis-blue/themes/noctis-blue-one-dark.json` のターミナル用16色、背景、文字色、カーソル色、選択色を元にしている。全プロファイルの既定の配色として `profiles.defaults.colorScheme` に指定する。各プロファイルで独自に `colorScheme` や `appearance.colorScheme` が指定されている場合はその設定を保持するため、既定の配色が適用されないことがある。
 
 | キー | 動作 |
 | --- | --- |
@@ -243,9 +245,9 @@ git pull --ff-only
 | `Ctrl+PageDown` | 右のタブ（表示順） |
 | `Ctrl+W` | 現在のタブを閉じる |
 
-設定ファイルが複数見つかる場合（正式版・Preview版など）は、自動でどちらかを選ばず停止する。適用対象を指定する場合は `-SettingsPath 'C:\...\settings.json'` を付ける。
+既存のキー割り当てに競合があれば上書きせず中断する。設定ファイルが複数見つかる場合（正式版・Preview版など）は `-SettingsPath 'C:\...\settings.json'` で明示的に選択する。
 
-「賢いコピー」は独自設定せず、Windows Terminal の標準コピーを利用する。以前手動で追加した `Ctrl+Alt+C` や `autoMarkPrompts` は自動削除しないため、不要なら利用者が確認して解除する。
+「賢いコピー」は独自設定せず、Windows Terminal 標準のコピーを利用する。以前手動で追加した `Ctrl+Alt+C` や `autoMarkPrompts` は自動削除しない。
 
 ## 旧 AutoHotkey 設定の解除・アンインストール
 
