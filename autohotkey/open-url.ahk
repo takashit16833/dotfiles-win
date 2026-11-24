@@ -25,7 +25,7 @@ OpenClipboardUrlInEdge() {
 
     ; Only accept a single HTTP(S) URL with a non-empty host.
     ; In particular, quotes, whitespace and backslashes cannot become arguments.
-    if !RegExMatch(url, 'i)^https?://[^/\s?#"<>\\]+(?:[/?#][^\s"<>\\]*)?
+    if !RegExMatch(url, 'i)^https?://[^/\s?#"<>\\]+(?:[/?#][^\s"<>\\]*)?\z')
         return
 
     edge := FindEdgeExecutable()
