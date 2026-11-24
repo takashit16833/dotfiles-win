@@ -1,6 +1,7 @@
 {
     // Merge these entries into Windows Terminal settings.json > actions.
     // Do not replace the entire settings.json or existing actions.
+    "profiles": { "defaults": { "autoMarkPrompts": true } },
     "actions": [
         { "command": { "action": "prevTab", "tabSwitcherMode": "inOrder" }, "keys": "ctrl+pgup" },
         { "command": { "action": "nextTab", "tabSwitcherMode": "inOrder" }, "keys": "ctrl+pgdn" },
