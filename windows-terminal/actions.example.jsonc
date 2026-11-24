@@ -1,0 +1,18 @@
+{
+    // Merge these entries into Windows Terminal settings.json > actions.
+    // Do not replace the entire settings.json or existing actions.
+    "actions": [
+        { "command": { "action": "prevTab", "tabSwitcherMode": "inOrder" }, "keys": "ctrl+pgup" },
+        { "command": { "action": "nextTab", "tabSwitcherMode": "inOrder" }, "keys": "ctrl+pgdn" },
+        {
+            "command": {
+                "action": "multipleActions",
+                "actions": [
+                    { "action": "selectOutput", "direction": "prev" },
+                    { "action": "copy", "singleLine": false }
+                ]
+            },
+            "keys": "ctrl+alt+c"
+        }
+    ]
+}
