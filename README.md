@@ -33,7 +33,7 @@ Windows の `Hyper` は `Ctrl + Alt + Win` の同時押し。`-` は物理キー
 
 **画面幅の判定について：** macOS はポイント単位で2400以上を判定するが、Windows 側は AutoHotkey から取得した作業領域の幅（Windows座標）で2400以上を判定する。表示倍率が異なる環境では同じ物理画面でも判定結果が異なる可能性がある。実機の画面幅と動作は確認が必要。
 
-**ZMK の割り当ては別：** Windows 用 ZMK の `Hyper + I / O / - / A` は以前の Windows 標準 `Win + 矢印` 等を送る設定のまま。Mac と同じ物理操作を使うには、ZMK 側を `Ctrl + Alt + Win + キー` または `F19`～`F22` に変更する必要がある。それまでは Windows のキーボードからショートカットを入力する。
+**ZMK 側も対応済み：** `zmk-keyboard-torabo-tsuki-lp` の Windows Hyper レイヤー（layer_15）は、`Hyper + I / O / - / A` から `F19 / F20 / F21 / F22` を送る。`Shift + Hyper + I / -` は `Shift + F19 / F21`、`Hyper + Tab` は `Ctrl + Alt + Win + Tab`（Shift付きで逆方向）を送る。`Hyper + C/V` のRDP用マクロは維持している。使用前にZMKの更新ファームウェアを書き込み、Windows側で `cycle-window.ahk` が起動していることを確認する。
 
 適用コマンド（PowerShell）：
 
