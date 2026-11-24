@@ -229,7 +229,7 @@ Obsidian の「設定 → 外観」でテーマを「デフォルト」、配色
 
 `windows-terminal/actions.example.jsonc` にタブ移動と直前の実行結果のコピー用設定を用意している。
 
-Windows Terminal で「設定 → JSON ファイルを開く」を選び、例の `actions` 配列内の3項目を**既存の `actions` 配列へ追加**する。`settings.json` 全体を置き換えない。既に同じキーが割り当てられている場合は、重複を解消してから保存する。
+Windows Terminal で「設定 → JSON ファイルを開く」を選び、例の `actions` 配列内の3項目を**既存の `actions` 配列へ追加**する。さらに既存の `profiles.defaults` に `"autoMarkPrompts": true` を追加する（既存の `profiles` は置き換えない）。`settings.json` 全体を置き換えない。既に同じキーが割り当てられている場合は、重複を解消してから保存する。
 
 | キー | 動作 |
 | --- | --- |
