@@ -55,16 +55,16 @@ git pull --ff-only
 
 `uninstall.ps1` でこの常駐処理と自動起動設定も解除する。RDP 接続先の開発端末内のアプリを切り替えるには、接続先でも動作するか別途確認が必要。
 
-## クリップボードのURLをEdgeで開く
+## 選択したURLをEdgeで開く
 
-AutoHotkey v2の `autohotkey/open-url.ahk` を `cycle-window.ahk` から読み込み、コピー済みのURLをMicrosoft Edgeで開く。新しい常駐プロセスや追加ツールは不要。
+AutoHotkey v2の `autohotkey/open-url.ahk` を `cycle-window.ahk` から読み込み、選択中のURL文字列をMicrosoft Edgeで開く。新しい常駐プロセスや追加ツールは不要。
 
 | 操作 | 動作 |
 | --- | --- |
-| `Hyper + U`（Windows: Ctrl+Alt+Win+U） | コピー済みのURLをEdgeで開く |
+| `Hyper + U`（Windows: Ctrl+Alt+Win+U） | 選択中のURLをEdgeで開く |
 | ZMK Windows Hyper + U | `Ctrl+Alt+Win+U` を直接送信して同じ操作を実行 |
 
-`http://` または `https://` で始まる単一のURLのみ受け付け、前後の空白と改行は取り除く。URL以外なら何もせず、クリップボードの内容は変更しない。選択中の文字列の自動コピーは行わない。Edge実行ファイルが見つからない場合や起動できない場合は通知する。
+URLを選択して `Hyper + U` を押すと、AutoHotkey が一時的に `Ctrl+C` で選択文字列を取得する。直前のクリップボード全体（画像などを含む）は復元する。`http://` または `https://` で始まる単一のURLのみ開き、前後の空白と改行は取り除く。選択文字列をコピーできないアプリやURL以外の文字列では何も開かない。古いクリップボードに残ったURLを代わりに開くことはしない。Edge実行ファイルが見つからない場合や起動できない場合は通知する。
 
 Windows側の適用方法：
 
