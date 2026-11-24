@@ -225,6 +225,22 @@ cd ~/workspace/dotfiles-win
 
 Obsidian の「設定 → 外観」でテーマを「デフォルト」、配色をダークにし、「CSS スニペット」で2つを有効にする（初回はスニペット一覧を再読み込みする）。後日、`dotfiles` を `git pull --ff-only` で更新したら同じスクリプトを再実行する。
 
+## Windows Terminal
+
+`windows-terminal/actions.example.jsonc` にタブ移動と直前の実行結果のコピー用設定を用意している。
+
+Windows Terminal で「設定 → JSON ファイルを開く」を選び、例の `actions` 配列内の3項目を**既存の `actions` 配列へ追加**する。`settings.json` 全体を置き換えない。既に同じキーが割り当てられている場合は、重複を解消してから保存する。
+
+| キー | 動作 |
+| --- | --- |
+| `Ctrl+PageUp` | 左のタブ（表示順） |
+| `Ctrl+PageDown` | 右のタブ（表示順） |
+| `Ctrl+Alt+C` | 直前のコマンドの**出力だけ**を選択してコピー |
+
+標準の `Ctrl+C` は、文字が選択されていればコピー、選択されていなければ端末にキー入力を送るので、実行中のプログラムを中断できる。
+
+WezTerm の「選択時は選択文字列、未選択時は直前のコマンド＋結果を同じキーでコピー」とは異なる。Windows Terminal 標準の `multipleActions` には選択有無による条件分岐がなく、`selectOutput` は結果のみを選択する。直前の出力の選択には、Windows Terminal のシェル統合（OSC 133 のコマンド境界情報）が必要となる。独自の PowerShell プロンプトでこの情報が送られていない場合、`Ctrl+Alt+C` の動作は保証されないため、タブ移動と分けて確認する。
+
 ## 旧 AutoHotkey 設定の解除・アンインストール
 
 旧版で起動した `window.ahk` と自動起動ショートカットだけを解除する場合:
