@@ -227,19 +227,17 @@ Obsidian の「設定 → 外観」でテーマを「デフォルト」、配色
 
 ## Windows Terminal
 
-`windows-terminal/actions.example.jsonc` にタブ移動と直前の実行結果のコピー用設定を用意している。
+`windows-terminal/actions.example.jsonc` にタブ移動とタブを閉じるショートカットの設定例を用意している。
 
-Windows Terminal で「設定 → JSON ファイルを開く」を選び、例の `actions` 配列内の3項目を**既存の `actions` 配列へ追加**する。さらに既存の `profiles.defaults` に `"autoMarkPrompts": true` を追加する（既存の `profiles` は置き換えない）。`settings.json` 全体を置き換えない。既に同じキーが割り当てられている場合は、重複を解消してから保存する。
+Windows Terminal の「設定 → JSON ファイルを開く」から `settings.json` を開き、設定例の `actions` 配列の3項目を**既存の `actions` 配列に追加**する。設定ファイル全体や既存の `actions` は置き換えない。同じキーに既存の割り当てがあれば、重複しないように調整する。
 
 | キー | 動作 |
 | --- | --- |
 | `Ctrl+PageUp` | 左のタブ（表示順） |
 | `Ctrl+PageDown` | 右のタブ（表示順） |
-| `Ctrl+Alt+C` | 直前のコマンドの**出力だけ**を選択してコピー |
+| `Ctrl+W` | 現在のタブを閉じる |
 
-標準の `Ctrl+C` は、文字が選択されていればコピー、選択されていなければ端末にキー入力を送るので、実行中のプログラムを中断できる。
-
-WezTerm の「選択時は選択文字列、未選択時は直前のコマンド＋結果を同じキーでコピー」とは異なる。Windows Terminal 標準の `multipleActions` には選択有無による条件分岐がなく、`selectOutput` は結果のみを選択する。直前の出力の選択には、Windows Terminal のシェル統合（OSC 133 のコマンド境界情報）が必要となる。独自の PowerShell プロンプトでこの情報が送られていない場合、`Ctrl+Alt+C` の動作は保証されないため、タブ移動と分けて確認する。
+「賢いコピー」の独自設定は追加せず、コピーは Windows Terminal 標準動作のまま使用する。以前の設定例から `Ctrl+Alt+C` の `multipleActions` と `profiles.defaults.autoMarkPrompts` を追加済みの場合は、不要なら削除してよい（ほかの用途で利用している場合は残す）。
 
 ## 旧 AutoHotkey 設定の解除・アンインストール
 
