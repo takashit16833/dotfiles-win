@@ -1,9 +1,0 @@
-{
-    // Merge these bindings into Windows Terminal settings.json > actions.
-    // Preserve existing settings and resolve duplicate key bindings.
-    "actions": [
-        { "command": { "action": "prevTab", "tabSwitcherMode": "inOrder" }, "keys": "ctrl+pgup" },
-        { "command": { "action": "nextTab", "tabSwitcherMode": "inOrder" }, "keys": "ctrl+pgdn" },
-        { "command": "closeTab", "keys": "ctrl+w" }
-    ]
-}
