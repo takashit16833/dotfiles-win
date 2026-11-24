@@ -1,7 +1,6 @@
-; Hyper+U (Ctrl+Alt+Win+U) or F23 from the Windows ZMK layer.
+; Hyper+U sends Ctrl+Alt+Win+U from a keyboard or ZMK.
 ; Clipboard is read-only: no Ctrl+C is sent and previous clipboard data is kept.
 ^!#u::OpenClipboardUrlInEdge()
-F23::OpenClipboardUrlInEdge()
 
 OpenClipboardUrlInEdge() {
     url := Trim(A_Clipboard, " `t`r`n")
