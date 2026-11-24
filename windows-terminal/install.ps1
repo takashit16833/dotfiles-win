@@ -1,4 +1,4 @@
-# Apply Windows Terminal shortcuts without replacing existing settings.
+# Apply Windows Terminal shortcuts and Noctis Blue One Dark colors.
 # Requires Node.js and an existing Windows Terminal settings.json.
 param([string]$SettingsPath)
 
@@ -29,4 +29,9 @@ if (-not (Test-Path -LiteralPath $SettingsPath -PathType Leaf)) {
 & node (Join-Path $PSScriptRoot 'apply.js') $SettingsPath
 if ($LASTEXITCODE -ne 0) {
     throw "Windows Terminal shortcut setup failed (exit code $LASTEXITCODE)."
+}
+
+& node (Join-Path $PSScriptRoot 'theme.js') $SettingsPath
+if ($LASTEXITCODE -ne 0) {
+    throw "Windows Terminal theme setup failed (exit code $LASTEXITCODE)."
 }
